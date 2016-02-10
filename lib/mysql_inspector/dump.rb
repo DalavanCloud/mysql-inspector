@@ -43,7 +43,6 @@ module MysqlInspector
       begin
         access.tables.each { |table|
           File.open(File.join(dir, "#{table.table_name}.table"), "w") { |f|
-            puts table.to_simple_schema
             f.print table.to_simple_schema
           }
         }
