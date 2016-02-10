@@ -16,6 +16,9 @@ module MysqlInspector
           table = MysqlInspector::Table.new(schema)
           table if table.table_name
         }.compact
+        
+        puts tables.inspect
+        tables
       end
 
       def drop_all_tables
@@ -26,9 +29,16 @@ module MysqlInspector
       end
 
       def load(schema)
+        puts "IN AR"
+        
+        puts @connection.inspect
+        
         @connection.disable_referential_integrity do
+          puts "Inside of the execution block"
           schema.split(";").each { |table|
-            @connection.execute(table)
+            puts "TABLE: #{table}"
+            a = @connection.execute(table)
+            puts a.inspect
           }
         end
       end
