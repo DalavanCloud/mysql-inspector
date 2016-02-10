@@ -39,6 +39,8 @@ module MysqlInspector
     end
 
     def pipe_to_mysql(query)
+      puts "Inside of pipe to mysql"
+      
       mysql_command = [@mysql_path, "-u#{@mysql_user}", @mysql_password ? "-p#{@mysql_password}" : nil].compact * " "
       out, err, status = nil
       puts "PIPE TO MYSQL"

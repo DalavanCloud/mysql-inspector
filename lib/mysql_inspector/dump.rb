@@ -59,12 +59,8 @@ module MysqlInspector
     # access - Instance of Access.
     #
     # Returns nothing.
-    def load!(access)
-      puts "Loading"
-      puts "Tables: #{tables.inspect}"
-      
+    def load!(access)      
       schema = tables.map { |t| t.to_sql }.join(";")
-      puts schema.inspect
       access.drop_all_tables
       puts 'Dropped all tables'
       access.load(schema)
