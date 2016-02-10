@@ -35,10 +35,13 @@ module MysqlInspector
     #
 
     def create_dump(version)
+      puts "Creating dump"
       raise ["Missing dir or version", dir, version].inspect if dir.nil? or version.nil?
       file = File.join(dir, version)
       extras = []
       extras << Migrations.new(file) if migrations
+      
+      puts "Extras: #{extras.inspect}"
       Dump.new(file, *extras)
     end
 

@@ -120,9 +120,11 @@ module MysqlInspector
     def to_sql
       lines = []
 
+      puts "Creating tables"
       lines << "CREATE TABLE `#{table_name}` ("
       lines << (columns + indices + constraints).map { |x| "  #{x.to_sql}" }.join(",\n")
       lines << ") #{options}"
+      puts "Created tables"
 
       lines.join("\n")
     end
