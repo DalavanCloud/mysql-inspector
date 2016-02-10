@@ -61,9 +61,12 @@ module MysqlInspector
     # Returns nothing.
     def load!(access)
       schema = tables.map { |t| t.to_sql }.join(";")
+      puts schema.inspect
       access.drop_all_tables
+      puts 'Dropped all tables'
       access.load(schema)
-      @extras.each { |extra| extra.load!(access) }
+      puts 'Loaded schema'
+      @extras.each { |extra| puts "#{access}"; extra.load!(access) }
     end
 
   end
