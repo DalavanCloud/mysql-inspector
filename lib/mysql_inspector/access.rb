@@ -41,9 +41,14 @@ module MysqlInspector
     def pipe_to_mysql(query)
       mysql_command = [@mysql_path, "-u#{@mysql_user}", @mysql_password ? "-p#{@mysql_password}" : nil].compact * " "
       out, err, status = nil
+      puts "PIPE TO MYSQL"
+      
       Tempfile.open('schema') do |file|
         file.print(query)
         file.flush
+        
+        puts "Opening #{file.path} | #{mysql_command} #{@database_name}"
+        
         out, err, status = Open3.capture3("cat #{file.path} | #{mysql_command} #{@database_name}")
       end
       unless status.exitstatus == 0
@@ -54,6 +59,9 @@ module MysqlInspector
           raise Error, err
         end
       end
+      
+      puts '*' * 80
+      puts out
       out
     end
 
