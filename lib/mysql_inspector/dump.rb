@@ -43,10 +43,11 @@ module MysqlInspector
       begin
         access.tables.each { |table|
           File.open(File.join(dir, "#{table.table_name}.table"), "w") { |f|
+            puts table.to_simple_schema
             f.print table.to_simple_schema
           }
         }
-        @extras.each { |extra| extra.write!(access) }
+        @extras.each { |extra| puts extra.inspect; extra.write!(access) }
       rescue
         FileUtils.rm_rf(dir) # note this does not remove all the dirs that may have been created.
         raise
@@ -61,8 +62,10 @@ module MysqlInspector
     # Returns nothing.
     def load!(access)
       schema = tables.map { |t| t.to_sql }.join(";")
+      puts schema.inspect
       access.drop_all_tables
       access.load(schema)
+      puts "Schema loaded"
       @extras.each { |extra| extra.load!(access) }
     end
 
