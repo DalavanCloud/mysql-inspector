@@ -28,17 +28,12 @@ module MysqlInspector
         end
       end
 
-      def load(schema)
-        puts "IN AR"
-        
-        puts @connection.inspect
-        
+      def load(schema)        
         @connection.disable_referential_integrity do
-          puts "Inside of the execution block"
-          schema.split(";").each { |table|
-            puts "TABLE: #{table}"
+          puts "Loading: #{schema.split(";").size} tables"
+          schema.split(";").each_with_index { |table, index|
             a = @connection.execute(table)
-            puts a.inspect
+            puts "#{index} | "
           }
         end
       end
